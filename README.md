@@ -6,11 +6,11 @@ $ yarn
 $ yarn dev
 ```
 
-## running
+## stage
 ```
-$ yarn
-$ yarn build
-$ yarn start
+$ npm ci
+$ npm run build:web
+$ npm start
 ```
 
 ### todo
