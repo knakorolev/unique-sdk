@@ -17,4 +17,4 @@ $ npm start
 - [x] add todo list to readme
 - [x] create "develop" branch
 - [x] add some code
-- [ ] add some useful code
+- [x] add some useful code
