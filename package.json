@@ -10,6 +10,7 @@
     "test": "nx test",
     "test:sdk": "nx test sdk",
     "test:web": "nx test web",
+    "lint": "nx lint",
     "start": "node ./dist/packages/web/main.js"
   },
   "private": true,

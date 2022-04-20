@@ -9,7 +9,7 @@ import { signatureVerify } from '@polkadot/util-crypto';
 
 export const getSignerPayloadHex = (
   api: ApiPromise,
-  signerPayloadRaw: SignerPayloadRaw
+  signerPayloadRaw: SignerPayloadRaw,
 ): HexString => {
   const rawPayloadDataU8a = hexToU8a(signerPayloadRaw.data);
 
@@ -24,7 +24,7 @@ export const getSignerPayloadHex = (
 
 export const getSignerPayloadRaw = (
   api: ApiPromise,
-  signerPayloadJSON: SignerPayloadJSON
+  signerPayloadJSON: SignerPayloadJSON,
 ): SignerPayloadRaw => {
   const rawPayloadDataU8a = api.registry
     .createType('ExtrinsicPayload', signerPayloadJSON, {
@@ -42,7 +42,7 @@ export const getSignerPayloadRaw = (
 export const verifyTxSignature = (
   api: ApiPromise,
   signerPayloadJSON: SignerPayloadJSON,
-  signature: HexString
+  signature: HexString,
 ): boolean => {
   const signerPayloadRaw = getSignerPayloadRaw(api, signerPayloadJSON);
   const signerPayloadHex = getSignerPayloadHex(api, signerPayloadRaw);
@@ -51,7 +51,7 @@ export const verifyTxSignature = (
     const verifyResult = signatureVerify(
       signerPayloadHex,
       signature,
-      signerPayloadJSON.address
+      signerPayloadJSON.address,
     );
 
     return verifyResult.isValid;

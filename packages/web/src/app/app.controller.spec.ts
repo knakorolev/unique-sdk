@@ -11,7 +11,6 @@ import { Keyring } from '@polkadot/keyring';
 describe('AppController', () => {
   let app: INestApplication;
   let alice: KeyringPair;
-  let bob: KeyringPair;
 
   beforeAll(async () => {
     const testingModule = await Test.createTestingModule({
@@ -25,13 +24,12 @@ describe('AppController', () => {
     await app.init();
 
     alice = new Keyring({ type: 'sr25519' }).addFromUri('//Alice');
-    bob = new Keyring({ type: 'sr25519' }).addFromUri('//Bob');
   });
 
   describe('first', () => {
     it('GET /api/balance - ok', async () => {
       const response = await request(app.getHttpServer()).get(
-        `/api/balance?address=${alice.address}`
+        `/api/balance?address=${alice.address}`,
       );
 
       expect(response.ok).toEqual(true);
@@ -44,7 +42,7 @@ describe('AppController', () => {
 
     it('GET /api/balance - not ok', async () => {
       const response = await request(app.getHttpServer()).get(
-        `/api/balance?address=foo`
+        `/api/balance?address=foo`,
       );
 
       expect(response.ok).toEqual(false);

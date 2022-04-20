@@ -11,7 +11,7 @@ export const addSwagger = (app: INestApplication) => {
       [
         `Unique SDK HTTP API`,
         `connected to ${configService.get('chainWsUrl')}`,
-      ].join('\n\n')
+      ].join('\n\n'),
     )
     .setVersion('1.0')
     .build();
