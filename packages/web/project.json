@@ -10,6 +10,14 @@
         "outputPath": "dist/packages/web",
         "main": "packages/web/src/main.ts",
         "tsConfig": "packages/web/tsconfig.app.json",
+        "tsPlugins": [
+          {
+            "name": "@nestjs/swagger/plugin",
+            "options": {
+              "introspectComments": true
+            }
+          }
+        ],
         "assets": ["packages/web/src/assets"]
       },
       "configurations": {

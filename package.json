@@ -7,15 +7,23 @@
     "build": "nx build",
     "build:sdk": "nx build sdk",
     "build:web": "nx build web",
+    "test": "nx test",
+    "test:sdk": "nx test sdk",
+    "test:web": "nx test web",
+    "lint": "nx lint",
     "start": "node ./dist/packages/web/main.js"
   },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^8.0.0",
+    "@nestjs/config": "^2.0.0",
     "@nestjs/core": "^8.0.0",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/swagger": "^5.2.1",
+    "@polkadot/api": "^8.1.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
+    "swagger-ui-express": "^4.3.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
@@ -31,6 +39,7 @@
     "@nrwl/workspace": "13.10.2",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.7",
+    "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "~5.18.0",
     "@typescript-eslint/parser": "~5.18.0",
     "eslint": "~8.12.0",
@@ -38,6 +47,7 @@
     "jest": "27.2.3",
     "nx": "13.10.2",
     "prettier": "^2.5.1",
+    "supertest": "^6.2.2",
     "ts-jest": "27.0.5",
     "typescript": "~4.6.2"
   }
