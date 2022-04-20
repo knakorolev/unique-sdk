@@ -1,0 +1,18 @@
+import { ConfigModule } from '@nestjs/config';
+
+export type Config = {
+  isProduction: boolean;
+  port: number;
+  chainWsUrl: string;
+};
+
+const loadConfig = (): Config => ({
+  isProduction: process.env.NODE_ENV !== 'development',
+  port: parseInt(process.env.PORT, 10) || 3000,
+  chainWsUrl: process.env.CHAIN_WS_URL || 'wss://ws-quartz-dev.comecord.com',
+});
+
+export const GlobalConfigModule = ConfigModule.forRoot({
+  isGlobal: true,
+  load: [loadConfig],
+});
