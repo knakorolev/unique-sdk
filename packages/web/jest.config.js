@@ -1,4 +1,8 @@
-const esModules = ['@polkadot/util/is/function'].join('|');
+const esModules = [
+  '@polkadot/util/is/function',
+  '@polkadot/api-augment/',
+  '@polkadot/types-augment/',
+].join('|');
 
 module.exports = {
   displayName: 'web',

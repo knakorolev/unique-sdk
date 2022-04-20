@@ -10,6 +10,7 @@ import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 import { addSwagger } from './app/utils/swagger';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,7 +19,7 @@ async function bootstrap() {
 
   addSwagger(app);
 
-  const port = process.env.PORT || 3000;
+  const port = app.get(ConfigService).get('port');
   await app.listen(port);
   Logger.log(`Application is running on :${port}/${globalPrefix}`);
 }

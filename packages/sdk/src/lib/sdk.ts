@@ -62,11 +62,11 @@ export class Sdk {
     const signingInfo = await this.api.derive.tx.signingInfo(
       address,
       undefined,
-      buildArgs.isImmortal ? 0 : undefined
+      buildArgs.isImmortal ? 0 : undefined,
     );
 
     const { nonce, header, mortalLength } = signingInfo;
-    const extrinsicEra = !buildArgs.isImmortal
+    const era = !buildArgs.isImmortal
       ? this.api.registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [
           {
             current: header!.number,
@@ -79,16 +79,22 @@ export class Sdk {
       ? this.api.genesisHash
       : header!.hash;
 
-    const tx = this.api.tx[section][method](...args);
+    const {
+      genesisHash,
+      runtimeVersion,
+      registry: { signedExtensions },
+    } = this.api;
 
     const signatureOptions: SignatureOptions = {
-      blockHash,
-      era: extrinsicEra,
-      genesisHash: this.api.genesisHash,
       nonce,
-      runtimeVersion: this.api.runtimeVersion,
-      signedExtensions: this.api.registry.signedExtensions,
+      blockHash,
+      era,
+      genesisHash,
+      runtimeVersion,
+      signedExtensions,
     };
+
+    const tx = this.api.tx[section][method](...args);
 
     const signerPayload = this.api.registry.createTypeUnsafe<SignerPayload>(
       'SignerPayload',
@@ -99,7 +105,7 @@ export class Sdk {
           method: tx.method,
           version: tx.version,
         }),
-      ]
+      ],
     );
 
     const signerPayloadRaw = signerPayload.toRaw();
