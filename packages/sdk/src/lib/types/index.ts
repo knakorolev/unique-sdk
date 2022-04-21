@@ -1,5 +1,6 @@
 import { SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
 import { HexString } from '@polkadot/util/types';
+import { AnyJson } from '@polkadot/types/types';
 
 export { HexString } from '@polkadot/util/types';
 export { SignerPayloadJSON, SignerPayloadRaw } from '@polkadot/types/types';
@@ -28,7 +29,7 @@ export interface TxBuildArgs {
   address: string;
   section: string; // todo section enum
   method: string; // todo method enum
-  args: any[]; // todo type ArgType = string | number?
+  args: AnyJson[];
   era?: number;
   isImmortal?: boolean;
 }
@@ -39,11 +40,11 @@ export interface UnsignedTxPayload {
   signerPayloadHex: HexString;
 }
 
-export enum SignatureType { // todo Sr25518, Ed25519 ...
-  sr25519 = 'sr25519',
-  ed25519 = 'ed25519',
-  ecdsa = 'ecdsa',
-  ethereum = 'ethereum',
+export enum SignatureType {
+  Sr25519 = 'sr25519',
+  Ed25519 = 'ed25519',
+  Ecdsa = 'ecdsa',
+  Ethereum = 'ethereum',
 }
 
 export interface SubmitTxArgs {

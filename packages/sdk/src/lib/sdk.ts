@@ -14,7 +14,8 @@ import {
   SubmitTxArgs,
   SubmitResult,
 } from './types';
-import { getSignerPayloadHex, verifyTxSignature } from './helpers'; // todo @unique-nft/sdk/helpers (utils?)
+// todo @unique-nft/sdk/helpers (utils?)
+import { getSignerPayloadHex, verifyTxSignature } from './helpers';
 
 export class Sdk {
   private readonly api: ApiPromise;
@@ -71,8 +72,10 @@ export class Sdk {
     );
 
     const { nonce, header, mortalLength } = signingInfo;
+
+    // todo 'ExtrinsicEra' -> enum ExtrinsicTypes {} ?
     const era = !buildArgs.isImmortal
-      ? this.api.registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [ // todo 'ExtrinsicEra' -> enum ExtrinsicTypes {} ?
+      ? this.api.registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [
           {
             current: header!.number,
             period: buildArgs.era || mortalLength,
@@ -102,23 +105,25 @@ export class Sdk {
     const tx = this.api.tx[section][method](...args);
 
     const signerPayload = this.api.registry.createTypeUnsafe<SignerPayload>(
-      'SignerPayload', // todo 'ExtrinsicSignature' -> enum ExtrinsicTypes {} ?
+      'SignerPayload',
       [
         objectSpread({}, signatureOptions, {
           address,
-          blockNumber: header ? header.number : 0, // todo header?.number || 0
+          blockNumber: header?.number || 0,
           method: tx.method,
           version: tx.version,
         }),
       ],
     );
 
+    const signerPayloadJSON = signerPayload.toPayload();
     const signerPayloadRaw = signerPayload.toRaw();
+    const signerPayloadHex = getSignerPayloadHex(this.api, signerPayloadRaw);
 
     return {
-      signerPayloadJSON: signerPayload.toPayload(),
-      signerPayloadRaw, // todo airbnb linter? https://github.com/airbnb/javascript#objects--grouped-shorthand
-      signerPayloadHex: getSignerPayloadHex(this.api, signerPayloadRaw),
+      signerPayloadJSON,
+      signerPayloadRaw,
+      signerPayloadHex,
     };
   }
 
@@ -126,22 +131,17 @@ export class Sdk {
     const { signerPayloadJSON, signature, signatureType } = args;
     const { method, version, address } = signerPayloadJSON;
 
+    // todo 'ExtrinsicSignature' -> enum ExtrinsicTypes {} ?
     const signatureWithType = signatureType
       ? this.api.registry
-          .createType('ExtrinsicSignature', { [signatureType]: signature })// todo 'ExtrinsicSignature' -> enum ExtrinsicTypes {} ?
+          .createType('ExtrinsicSignature', { [signatureType]: signature })
           .toHex()
       : signature;
 
-    console.log(signatureWithType, 'signatureWithType');
-    console.log(signature, 'signature');
+    verifyTxSignature(this.api, signerPayloadJSON, signature);
 
-    const isValid = verifyTxSignature(this.api, signerPayloadJSON, signature);
-
-    console.log('isValid ', isValid);
-
-    if (!isValid) throw new Error('Bad signature'); // todo BadSignatureError
-
-    const extrinsic = this.api.registry.createType('Extrinsic', { // todo 'Extrinsic' -> enum ExtrinsicTypes {} ?
+    // todo 'Extrinsic' -> enum ExtrinsicTypes {} ?
+    const extrinsic = this.api.registry.createType('Extrinsic', {
       method,
       version,
     });
@@ -150,7 +150,6 @@ export class Sdk {
 
     const hash = await this.api.rpc.author.submitExtrinsic(extrinsic);
 
-    console.log(hash.toHex(), 'hash');
     return { hash: hash.toHex() };
   }
 }
