@@ -14,9 +14,10 @@ import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api';
+  const globalPrefix = 'api'; // todo to config, do not use as default
   app.setGlobalPrefix(globalPrefix);
 
+  // todo `npm start --with-swagger`? `npm run build:web:swagger`?
   addSwagger(app);
 
   const port = app.get(ConfigService).get('port');
