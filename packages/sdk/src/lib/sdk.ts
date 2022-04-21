@@ -139,7 +139,7 @@ export class Sdk {
 
     console.log('isValid ', isValid);
 
-    if (!isValid) throw new Error('Bad signature');
+    if (!isValid) throw new Error('Bad signature'); // todo BadSignatureError
 
     const extrinsic = this.api.registry.createType('Extrinsic', { // todo 'Extrinsic' -> enum ExtrinsicTypes {} ?
       method,
