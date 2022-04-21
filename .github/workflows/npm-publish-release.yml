@@ -30,8 +30,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npm ci
       - run: npm build:sdk
-      - name: Publish
-        working-directory: ./dist/packages/sdk/
+      - working-directory: ./dist/packages/sdk/
         shell: bash
         run: |
           npm version ${{ GITHUB_REF#refs/*/v }}
