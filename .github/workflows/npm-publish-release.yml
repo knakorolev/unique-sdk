@@ -2,8 +2,9 @@ name: Release
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - develop
+      - npm-publish-action
   workflow_dispatch:
 
 jobs:
