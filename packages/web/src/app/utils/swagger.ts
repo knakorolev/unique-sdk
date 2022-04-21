@@ -17,5 +17,6 @@ export const addSwagger = (app: INestApplication) => {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
+  // todo swagger endpoint to config, default: `/swagger`?
   SwaggerModule.setup('/api/docs/', app, document);
 };
