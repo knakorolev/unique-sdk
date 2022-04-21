@@ -106,7 +106,7 @@ export class Sdk {
       [
         objectSpread({}, signatureOptions, {
           address,
-          blockNumber: header ? header.number : 0,
+          blockNumber: header ? header.number : 0, // todo header?.number || 0
           method: tx.method,
           version: tx.version,
         }),
@@ -117,7 +117,7 @@ export class Sdk {
 
     return {
       signerPayloadJSON: signerPayload.toPayload(),
-      signerPayloadRaw,
+      signerPayloadRaw, // todo airbnb linter? https://github.com/airbnb/javascript#objects--grouped-shorthand
       signerPayloadHex: getSignerPayloadHex(this.api, signerPayloadRaw),
     };
   }
