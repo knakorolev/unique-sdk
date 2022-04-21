@@ -1,9 +1,10 @@
-name: Release
+name: Release Candidate
 
 on:
   push:
-    tags:
-      - 'v*.*.*'
+    branches:
+      - release/**
+      - hotfix/**
 
 jobs:
   build-and-publish:
@@ -23,7 +24,12 @@ jobs:
         shell: bash
         id: version
         run: |
-          echo "##[set-output name=version;]${GITHUB_REF#refs/*/v}"
+          TAG=${GITHUB_REF#*/v*}
+          LATEST_VER=$(npm view @unique-nft/sdk versions --json | sed -n "/$TAG-rc/p" | tail -1)
+          SUFF=${LATEST_VER#*-rc.*}
+          LATEST_RC=${SUFF%\"*}
+          RC=$((LATEST_RC + 1))
+          echo "##[set-output name=version;]${TAG}-rc${RC}"
       - name: NPM Build
         shell: bash
         run: |
