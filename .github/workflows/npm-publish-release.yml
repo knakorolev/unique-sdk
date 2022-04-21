@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*.*.*'
+  workflow_dispatch:
 
 jobs:
   test:
@@ -33,7 +34,7 @@ jobs:
         working-directory: ./dist/packages/sdk/
         shell: bash
         run: |
-          npm version ${{ GITHUB_REF#refs/*/v }}
+#          npm version ${{ GITHUB_REF#refs/*/v }}
           npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_PUBLISH_TOKEN}}
