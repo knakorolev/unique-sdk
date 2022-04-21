@@ -2,13 +2,13 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 
 import { Sdk } from '@unique-nft/sdk';
 import {
-  ChainPropertiesDto,
-  GetBalanceArgsDto,
-  BalanceDto,
-  UnsignedTxPayloadDto,
-  BuildTxDto,
-  SubmitTxArgsDto,
-  SubmitResultDto,
+  ChainPropertiesResponse,
+  BalanceRequest,
+  BalanceResponse,
+  ExtrinsicBuildResponse,
+  ExtrinsicBuildRequest,
+  ExtrinsicSubmitRequest,
+  ExtrinsicSubmitResponse,
 } from './dto';
 
 @Controller()
@@ -16,23 +16,26 @@ export class AppController {
   constructor(private readonly sdk: Sdk) {}
 
   @Get('chain_properties')
-  async getChainProperties(): Promise<ChainPropertiesDto> {
+  async getChainProperties(): Promise<ChainPropertiesResponse> {
     return await this.sdk.getChainProperties();
   }
 
   @Get('balance')
-  // todo BalanceRequest / BalanceResponse?
-  async getBalance(@Query() args: GetBalanceArgsDto): Promise<BalanceDto> {
+  async getBalance(@Query() args: BalanceRequest): Promise<BalanceResponse> {
     return await this.sdk.getBalance(args);
   }
 
-  @Post('build_tx') // todo /extrinsic/build? RESTful?
-  async buildTx(@Body() args: BuildTxDto): Promise<UnsignedTxPayloadDto> {
+  @Post('/extrinsic/build')
+  async buildTx(
+    @Body() args: ExtrinsicBuildRequest,
+  ): Promise<ExtrinsicBuildResponse> {
     return await this.sdk.buildTx(args);
   }
 
-  @Post('submit_tx') // todo /extrinsic/submit? RESTful?
-  async submitTx(@Body() args: SubmitTxArgsDto): Promise<SubmitResultDto> {
+  @Post('/extrinsic/submit')
+  async submitTx(
+    @Body() args: ExtrinsicSubmitRequest,
+  ): Promise<ExtrinsicSubmitResponse> {
     return await this.sdk.submitTx(args);
   }
 }
