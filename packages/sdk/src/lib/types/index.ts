@@ -28,7 +28,7 @@ export interface TxBuildArgs {
   address: string;
   section: string;
   method: string;
-  args: any[];
+  args: any[]; // todo type ArgType = string | number?
   era?: number;
   isImmortal?: boolean;
 }
@@ -39,7 +39,7 @@ export interface UnsignedTxPayload {
   signerPayloadHex: HexString;
 }
 
-export enum SignatureType {
+export enum SignatureType { // todo Sr25518, Ed25519 ...
   sr25519 = 'sr25519',
   ed25519 = 'ed25519',
   ecdsa = 'ecdsa',

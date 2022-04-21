@@ -14,7 +14,7 @@ import {
   SubmitTxArgs,
   SubmitResult,
 } from './types';
-import { getSignerPayloadHex, verifyTxSignature } from './helpers';
+import { getSignerPayloadHex, verifyTxSignature } from './helpers'; // todo @unique-nft/sdk/helpers (utils?)
 
 export class Sdk {
   private readonly api: ApiPromise;
@@ -24,6 +24,7 @@ export class Sdk {
     const provider = new WsProvider(this.options.chainWsUrl);
 
     this.api = new ApiPromise({ provider });
+    // todo EventEmitter? sdk.on('connect') ..
     this.isReady = this.api.isReadyOrError
       .catch(() => {
         // ignore
@@ -35,7 +36,10 @@ export class Sdk {
       });
   }
 
+  // todo any address (opal, quartz, unique) to current prefix
   async getBalance({ address }: GetBalanceArgs): Promise<Balance> {
+    // todo `get`: this.api[section][method]?
+    // todo getBalance(address) { this.get('balances', 'all', address);
     const { availableBalance } = await this.api.derive.balances.all(address);
 
     return {
@@ -44,6 +48,7 @@ export class Sdk {
         decimals: this.api.registry.chainDecimals[0],
         withUnit: this.api.registry.chainTokens[0],
       }),
+      // todo formatted -> formatted, withUnit, as number?
     };
   }
 
@@ -67,7 +72,7 @@ export class Sdk {
 
     const { nonce, header, mortalLength } = signingInfo;
     const era = !buildArgs.isImmortal
-      ? this.api.registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [
+      ? this.api.registry.createTypeUnsafe<ExtrinsicEra>('ExtrinsicEra', [ // todo 'ExtrinsicEra' -> enum ExtrinsicTypes {} ?
           {
             current: header!.number,
             period: buildArgs.era || mortalLength,
@@ -97,7 +102,7 @@ export class Sdk {
     const tx = this.api.tx[section][method](...args);
 
     const signerPayload = this.api.registry.createTypeUnsafe<SignerPayload>(
-      'SignerPayload',
+      'SignerPayload', // todo 'ExtrinsicSignature' -> enum ExtrinsicTypes {} ?
       [
         objectSpread({}, signatureOptions, {
           address,
@@ -123,7 +128,7 @@ export class Sdk {
 
     const signatureWithType = signatureType
       ? this.api.registry
-          .createType('ExtrinsicSignature', { [signatureType]: signature })
+          .createType('ExtrinsicSignature', { [signatureType]: signature })// todo 'ExtrinsicSignature' -> enum ExtrinsicTypes {} ?
           .toHex()
       : signature;
 
@@ -136,7 +141,7 @@ export class Sdk {
 
     if (!isValid) throw new Error('Bad signature');
 
-    const extrinsic = this.api.registry.createType('Extrinsic', {
+    const extrinsic = this.api.registry.createType('Extrinsic', { // todo 'Extrinsic' -> enum ExtrinsicTypes {} ?
       method,
       version,
     });

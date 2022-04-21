@@ -81,7 +81,7 @@ export class BuildTxDto implements TxBuildArgs {
   /**
    * @example ['yGEYS1E6fu9YtECXbMFRf1faXRakk3XDLuD1wPzYb4oRWwRJK', 100000000]
    */
-  args: Array<string | number | Record<string, string | number>>;
+  args: Array<string | number | Record<string, string | number>>; // todo Oo ArgType? see packages/sdk/src/lib/types/index.ts line 31
 
   /**
    * @example '64'

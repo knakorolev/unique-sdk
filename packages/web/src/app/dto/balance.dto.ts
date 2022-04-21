@@ -9,6 +9,10 @@ export class BalanceDto implements Balance {
    * @example '411.3481 QTZ'
    */
   formatted: string;
+
+  // todo see sdk.ts line 50
+  // todo formatted: string
+  // todo withUnit: string
 }
 
 export class GetBalanceArgsDto implements GetBalanceArgs {
