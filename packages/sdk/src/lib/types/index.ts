@@ -26,8 +26,8 @@ export interface Balance {
 
 export interface TxBuildArgs {
   address: string;
-  section: string;
-  method: string;
+  section: string; // todo section enum
+  method: string; // todo method enum
   args: any[]; // todo type ArgType = string | number?
   era?: number;
   isImmortal?: boolean;
