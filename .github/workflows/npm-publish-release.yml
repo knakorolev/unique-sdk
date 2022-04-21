@@ -7,33 +7,34 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    name: Test
+  build-and-publish:
+    name: Build and publish package
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
         with:
-          node-version: 16
-      - run: npm ci
-      - run: npm run test:sdk
-
-  publish:
-    name: Build and Publish
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          registry-url: https://registry.npmjs.org/
-      - run: npm ci
-      - run: npm build:sdk
-      - working-directory: ./dist/packages/sdk/
+          node-version: '16'
+      - name: Initialize git user
+        run: git init&& git config user.name "Unique" && git config user.email "uikit@unique.network"
+      - name: Install project dependencies
+        run: npm install
+      - name: Extract version
+        shell: bash
+        id: version
+        run: |
+          echo "##[set-output name=version;]${GITHUB_REF#refs/*/v}"
+      - name: NPM Build
         shell: bash
         run: |
-          npm version ${{ GITHUB_REF#refs/*/v }}
+          npm ci
+          npm run build:sdk
+
+      - name: NPM Publish
+        working-directory: ./dist/packages/sdk
+        shell: bash
+        run: |
+          npm version ${{ steps.version.outputs.version }}
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}" >> .npmrc
           npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
