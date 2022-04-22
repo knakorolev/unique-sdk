@@ -3,9 +3,8 @@ import * as request from 'supertest';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { INestApplication } from '@nestjs/common';
 
-import { BalanceController } from './balance-controller';
-import { GlobalConfigModule } from '../config/config.module';
-import { AppModule, sdkProvider } from '../app.module';
+import { BalanceController } from './balance.controller';
+import { AppModule } from '../app.module';
 import { Keyring } from '@polkadot/keyring';
 import { waitReady } from '@polkadot/wasm-crypto';
 
