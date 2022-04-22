@@ -6,7 +6,7 @@ import { INestApplication } from '@nestjs/common';
 import { Keyring } from '@polkadot/keyring';
 import { waitReady } from '@polkadot/wasm-crypto';
 import { AppModule } from '../app.module';
-import { ExtrinsicsController } from './extrinsics-controller';
+import { ExtrinsicsController } from './extrinsics.controller';
 import { UnsignedTxPayload } from '@unique-nft/sdk';
 import { u8aToHex } from '@polkadot/util';
 
