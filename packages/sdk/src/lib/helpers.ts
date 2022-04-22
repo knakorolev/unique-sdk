@@ -58,8 +58,6 @@ export const verifyTxSignature = (
 
     if (verifyResult.isValid) return;
   } catch (error) {
-    console.error(error);
-
     const message = error && error instanceof Error ? error.message : undefined;
 
     throw new BadSignatureError(message);
