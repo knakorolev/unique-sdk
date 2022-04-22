@@ -2,7 +2,11 @@ import { Module } from '@nestjs/common';
 import { Sdk } from '@unique-nft/sdk';
 import { ConfigService } from '@nestjs/config';
 
-import { AppController } from './app.controller';
+import {
+  ChainController,
+  BalanceController,
+  ExtrinsicsController,
+} from './controllers';
 import { GlobalConfigModule } from './config/config.module';
 
 export const sdkProvider = {
@@ -19,7 +23,7 @@ export const sdkProvider = {
 
 @Module({
   imports: [GlobalConfigModule],
-  controllers: [AppController],
+  controllers: [ChainController, BalanceController, ExtrinsicsController],
   providers: [sdkProvider],
 })
 export class AppModule {}

@@ -1,6 +1,6 @@
 import { ChainProperties } from '@unique-nft/sdk';
 
-export class ChainPropertiesDto implements ChainProperties {
+export class ChainPropertiesResponse implements ChainProperties {
   /**
    * @example 255
    */

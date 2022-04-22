@@ -3,21 +3,22 @@ import * as request from 'supertest';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { INestApplication } from '@nestjs/common';
 
-import { AppController } from './app.controller';
-import { GlobalConfigModule } from './config/config.module';
-import { sdkProvider } from './app.module';
+import { BalanceController } from './balance-controller';
+import { GlobalConfigModule } from '../config/config.module';
+import { AppModule, sdkProvider } from '../app.module';
 import { Keyring } from '@polkadot/keyring';
+import { waitReady } from '@polkadot/wasm-crypto';
 
-describe('AppController', () => {
+describe(BalanceController.name, () => {
   let app: INestApplication;
   let alice: KeyringPair;
 
   beforeAll(async () => {
     const testingModule = await Test.createTestingModule({
-      imports: [GlobalConfigModule],
-      controllers: [AppController],
-      providers: [sdkProvider],
+      imports: [AppModule],
     }).compile();
+
+    await waitReady();
 
     app = testingModule.createNestApplication();
     app.setGlobalPrefix('/api');
@@ -26,11 +27,11 @@ describe('AppController', () => {
     alice = new Keyring({ type: 'sr25519' }).addFromUri('//Alice');
   });
 
-  describe('first', () => {
-    it('GET /api/balance - ok', async () => {
-      const response = await request(app.getHttpServer()).get(
-        `/api/balance?address=${alice.address}`,
-      );
+  describe('GET /api/balance', () => {
+    it('ok', async () => {
+      const response = await request(app.getHttpServer())
+        .get(`/api/balance`)
+        .query({ address: alice.address });
 
       expect(response.ok).toEqual(true);
 
@@ -40,10 +41,10 @@ describe('AppController', () => {
       });
     });
 
-    it('GET /api/balance - not ok', async () => {
-      const response = await request(app.getHttpServer()).get(
-        `/api/balance?address=foo`,
-      );
+    it('not ok', async () => {
+      const response = await request(app.getHttpServer())
+        .get(`/api/balance`)
+        .query({ address: 'foo' });
 
       expect(response.ok).toEqual(false);
     });

@@ -61,7 +61,7 @@ export class SignerPayloadJSONDto implements SignerPayloadJSON {
    */
   version: number;
 }
-export class BuildTxDto implements TxBuildArgs {
+export class ExtrinsicBuildRequest implements TxBuildArgs {
   /**
    * @description The ss-58 encoded address
    * @example 'yGCyN3eydMkze4EPtz59Tn7obwbUbYNZCz48dp8FRdemTaLwm'
@@ -110,7 +110,7 @@ export class SignerPayloadRawDto implements SignerPayloadRaw {
   type: 'bytes' | 'payload';
 }
 
-export class UnsignedTxPayloadDto implements UnsignedTxPayload {
+export class ExtrinsicBuildResponse implements UnsignedTxPayload {
   @ApiProperty({ type: String })
   signerPayloadHex: HexString;
 
@@ -119,7 +119,7 @@ export class UnsignedTxPayloadDto implements UnsignedTxPayload {
   signerPayloadRaw: SignerPayloadRawDto;
 }
 
-export class SubmitTxArgsDto implements SubmitTxArgs {
+export class ExtrinsicSubmitRequest implements SubmitTxArgs {
   @ApiProperty({ type: String })
   signature: HexString;
 
@@ -129,7 +129,7 @@ export class SubmitTxArgsDto implements SubmitTxArgs {
   signerPayloadJSON: SignerPayloadJSONDto;
 }
 
-export class SubmitResultDto implements SubmitResult {
+export class ExtrinsicSubmitResponse implements SubmitResult {
   @ApiProperty({ type: String })
   hash: HexString;
 }

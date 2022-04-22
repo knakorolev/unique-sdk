@@ -6,6 +6,7 @@ import {
 import { HexString } from '@polkadot/util/types';
 import { hexToU8a, u8aToHex } from '@polkadot/util';
 import { signatureVerify } from '@polkadot/util-crypto';
+import { BadSignatureError } from './types/errors';
 
 // todo helper per file? helpers as @unique-nft/sdk/helpers ... @unique-nft/sdk/helpers/get_signer_payload_hex ...
 export const getSignerPayloadHex = (
@@ -44,7 +45,7 @@ export const verifyTxSignature = (
   api: ApiPromise,
   signerPayloadJSON: SignerPayloadJSON,
   signature: HexString,
-): boolean => {
+): void => {
   const signerPayloadRaw = getSignerPayloadRaw(api, signerPayloadJSON);
   const signerPayloadHex = getSignerPayloadHex(api, signerPayloadRaw);
 
@@ -55,10 +56,12 @@ export const verifyTxSignature = (
       signerPayloadJSON.address,
     );
 
-    return verifyResult.isValid;
+    if (verifyResult.isValid) return;
   } catch (error) {
-    console.error(error);
+    const message = error && error instanceof Error ? error.message : undefined;
 
-    return false;
+    throw new BadSignatureError(message);
   }
+
+  throw new BadSignatureError();
 };
