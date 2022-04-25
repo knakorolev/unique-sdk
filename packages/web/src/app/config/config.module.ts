@@ -5,6 +5,7 @@ export type Config = {
   port: number;
   chainWsUrl: string;
   prefix: string;
+  swagger: string;
 };
 
 const loadConfig = (): Config => ({
@@ -12,6 +13,7 @@ const loadConfig = (): Config => ({
   port: parseInt(process.env.PORT, 10) || 3000,
   chainWsUrl: process.env.CHAIN_WS_URL || 'wss://ws-quartz-dev.comecord.com',
   prefix: process.env.PREFIX || '',
+  swagger: process.env.SWAGGER || 'swagger',
 });
 
 export const GlobalConfigModule = ConfigModule.forRoot({
