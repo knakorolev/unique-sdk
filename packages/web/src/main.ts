@@ -11,18 +11,23 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { addSwagger } from './app/utils/swagger';
 import { ConfigService } from '@nestjs/config';
+import { Config } from './app/config/config.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const globalPrefix = 'api'; // todo to config, do not use as default
-  app.setGlobalPrefix(globalPrefix);
+  const config: ConfigService<Config> = app.get(ConfigService);
+
+  const prefix = config.get('prefix');
+  if (prefix) {
+    app.setGlobalPrefix(prefix);
+  }
 
   // todo `npm start --with-swagger`? `npm run build:web:swagger`?
   addSwagger(app);
 
-  const port = app.get(ConfigService).get('port');
+  const port = config.get('port');
   await app.listen(port);
-  Logger.log(`Application is running on :${port}/${globalPrefix}`);
+  Logger.log(`Application is running on :${[port, prefix].filter(v => !!v).join('/')}`);
 }
 
 bootstrap();
