@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import * as request from 'supertest';
+import request from 'supertest';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { INestApplication } from '@nestjs/common';
 

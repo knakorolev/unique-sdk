@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing';
-import * as request from 'supertest';
+import request from 'supertest';
 import { KeyringPair } from '@polkadot/keyring/types';
 import { INestApplication } from '@nestjs/common';
 
@@ -43,8 +43,7 @@ describe(ExtrinsicsController.name, () => {
 
       expect(payloadResponse.ok).toBe(true);
 
-      const { signerPayloadHex, signerPayloadJSON } =
-        payloadResponse.body as UnsignedTxPayload;
+      const { signerPayloadJSON } = payloadResponse.body as UnsignedTxPayload;
 
       const badSignature = u8aToHex(
         alice.sign('not_a_payload_hex', {
