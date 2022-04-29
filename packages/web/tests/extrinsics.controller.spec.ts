@@ -1,14 +1,14 @@
 import { Test } from '@nestjs/testing';
-import request from 'supertest';
-import { KeyringPair } from '@polkadot/keyring/types';
 import { INestApplication } from '@nestjs/common';
-
+import { KeyringPair } from '@polkadot/keyring/types';
 import { Keyring } from '@polkadot/keyring';
 import { waitReady } from '@polkadot/wasm-crypto';
-import { AppModule } from '../app.module';
-import { ExtrinsicsController } from './extrinsics.controller';
-import { UnsignedTxPayload } from '@unique-nft/sdk';
 import { u8aToHex } from '@polkadot/util';
+import { UnsignedTxPayload } from '@unique-nft/sdk';
+import request from 'supertest';
+
+import { ExtrinsicsController } from '../src/app/controllers';
+import { AppModule } from '../src/app/app.module';
 
 describe(ExtrinsicsController.name, () => {
   let app: INestApplication;
