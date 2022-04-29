@@ -69,11 +69,13 @@ export class ExtrinsicBuildRequest implements TxBuildArgs {
   address: string;
 
   /**
+   * todo enum? endpoint with enums? schema?
    * @example 'balances'
    */
   section: string;
 
   /**
+   * todo enum? endpoint with enums? schema?
    * @example 'transfer'
    */
   method: string;
@@ -84,11 +86,13 @@ export class ExtrinsicBuildRequest implements TxBuildArgs {
   args: Array<string | number | Record<string, string | number>>; // todo Oo ArgType? see packages/sdk/src/lib/types/index.ts line 31
 
   /**
+   * todo required? why?
    * @example '64'
    */
   era: number;
 
   /**
+   * todo required? why?
    * @example 'false'
    */
   isImmortal: boolean;
