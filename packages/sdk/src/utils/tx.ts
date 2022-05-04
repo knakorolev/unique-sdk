@@ -6,8 +6,8 @@ import {
 import { HexString } from '@polkadot/util/types';
 import { hexToU8a, u8aToHex } from '@polkadot/util';
 import { signatureVerify } from '@polkadot/util-crypto';
-import { BadSignatureError } from '../types/errors';
 import { SignerPayload } from '@polkadot/types/interfaces';
+import { BadSignatureError } from '../types/errors';
 import { UnsignedTxPayload } from '../types';
 
 const getSignerPayloadHex = (

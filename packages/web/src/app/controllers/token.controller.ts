@@ -10,9 +10,9 @@ import {
 } from '@nestjs/common';
 
 import { Sdk } from '@unique-nft/sdk';
+import { ApiTags } from '@nestjs/swagger';
 import { ExtrinsicBuildResponse, TokenGetRequest } from '../dto';
 import { SdkExceptionsFilter } from '../utils/exception-filter';
-import { ApiTags } from '@nestjs/swagger';
 import {
   BurnTokenRequest,
   CreateTokenRequest,

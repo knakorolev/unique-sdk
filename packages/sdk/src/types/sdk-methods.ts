@@ -1,11 +1,11 @@
 import { HexString } from '@polkadot/util/types';
+import { AugmentedSubmittables } from '@polkadot/api-base/types/submittable';
 import { CollectionInfo, TokenInfo } from './unique-types';
 import {
   SignatureType,
   SignerPayloadJSON,
   SignerPayloadRaw,
 } from './polkadot-types';
-import { AugmentedSubmittables } from '@polkadot/api-base/types/submittable';
 
 export interface ChainProperties {
   SS58Prefix: number;
@@ -96,8 +96,8 @@ export interface ISdkExtrinsics {
 export interface ISdkQuery {
   chainProperties(): ChainProperties;
   balance(args: AddressArg): Promise<Balance>;
-  collection(args: CollectionIdArg): Promise<CollectionInfo | undefined>;
-  token(args: TokenIdArg): Promise<TokenInfo | undefined>;
+  collection(args: CollectionIdArg): Promise<CollectionInfo | null>;
+  token(args: TokenIdArg): Promise<TokenInfo | null>;
 }
 
 export interface ISdk {

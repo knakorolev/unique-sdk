@@ -6,7 +6,7 @@ import type {
   ISdkExtrinsics,
   TransferCollectionArgs,
   UnsignedTxPayload,
-} from '@unique-nft/sdk/types';
+} from '../types';
 import { encodeCollection } from '../utils/collection-transformers';
 
 export class SdkCollection implements ISdkCollection {
@@ -18,7 +18,7 @@ export class SdkCollection implements ISdkCollection {
     const encodedCollection = encodeCollection(this.api.registry, rest).toHex();
 
     return this.extrinsics.build({
-      address: address,
+      address,
       section: 'unique',
       method: 'createCollectionEx',
       args: [encodedCollection],

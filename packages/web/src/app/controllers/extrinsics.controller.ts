@@ -1,6 +1,7 @@
 import { Body, Controller, Post, UseFilters } from '@nestjs/common';
 
 import { Sdk } from '@unique-nft/sdk';
+import { ApiTags } from '@nestjs/swagger';
 import {
   ExtrinsicBuildResponse,
   ExtrinsicBuildRequest,
@@ -8,7 +9,6 @@ import {
   ExtrinsicSubmitResponse,
 } from '../dto';
 import { SdkExceptionsFilter } from '../utils/exception-filter';
-import { ApiTags } from '@nestjs/swagger';
 
 @UseFilters(SdkExceptionsFilter)
 @ApiTags('extrinsic')
@@ -20,13 +20,13 @@ export class ExtrinsicsController {
   async buildTx(
     @Body() args: ExtrinsicBuildRequest,
   ): Promise<ExtrinsicBuildResponse> {
-    return await this.sdk.extrinsics.build(args);
+    return this.sdk.extrinsics.build(args);
   }
 
   @Post('submit')
   async submitTx(
     @Body() args: ExtrinsicSubmitRequest,
   ): Promise<ExtrinsicSubmitResponse> {
-    return await this.sdk.extrinsics.submit(args);
+    return this.sdk.extrinsics.submit(args);
   }
 }

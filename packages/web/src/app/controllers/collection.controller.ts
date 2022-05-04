@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 
 import { Sdk } from '@unique-nft/sdk';
+import { ApiTags } from '@nestjs/swagger';
 import {
   BurnCollectionDto,
   CollectionGetRequest,
@@ -20,7 +21,6 @@ import {
   TransferCollectionDto,
 } from '../dto';
 import { SdkExceptionsFilter } from '../utils/exception-filter';
-import { ApiTags } from '@nestjs/swagger';
 
 @UseFilters(SdkExceptionsFilter)
 @ApiTags('collection')

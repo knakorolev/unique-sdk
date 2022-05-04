@@ -1,3 +1,8 @@
+import { ApiPromise } from '@polkadot/api';
+import { formatBalance } from '@polkadot/util';
+import { Option } from '@polkadot/types-codec';
+import { PalletNonfungibleItemData } from '@unique-nft/types';
+import { INamespace } from 'protobufjs';
 import {
   AddressArg,
   Balance,
@@ -8,14 +13,9 @@ import {
   SdkOptions,
   TokenIdArg,
   TokenInfo,
-} from '@unique-nft/sdk';
-import { ApiPromise } from '@polkadot/api';
-import { decodeCollection } from '../utils/collection-transformers';
-import { formatBalance } from '@polkadot/util';
-import { Option } from '@polkadot/types-codec';
-import { PalletNonfungibleItemData } from '@unique-nft/types';
+} from '../types';
 import { deserializeConstData } from '../utils/protobuf.utils';
-import { INamespace } from 'protobufjs';
+import { decodeCollection } from '../utils/collection-transformers';
 
 export class SkdQuery implements ISdkQuery {
   constructor(readonly options: SdkOptions, readonly api: ApiPromise) {}
@@ -46,24 +46,22 @@ export class SkdQuery implements ISdkQuery {
 
   async collection({
     collectionId,
-  }: CollectionIdArg): Promise<CollectionInfo | undefined> {
+  }: CollectionIdArg): Promise<CollectionInfo | null> {
     const collectionOption = await this.api.rpc.unique.collectionById(
       collectionId,
     );
-    const collection = collectionOption.unwrapOr(undefined);
+    const collection = collectionOption.unwrapOr(null);
 
-    if (collection === undefined) return collection;
-
-    return decodeCollection(collectionId, collection);
+    return collection ? decodeCollection(collectionId, collection) : collection;
   }
 
   async token({
     collectionId,
     tokenId,
-  }: TokenIdArg): Promise<TokenInfo | undefined> {
+  }: TokenIdArg): Promise<TokenInfo | null> {
     const collection = await this.collection({ collectionId });
 
-    if (!collection) return;
+    if (!collection) return null;
     const { offchainSchema, constOnChainSchema } = collection;
 
     const tokenDataOption: Option<PalletNonfungibleItemData> =
@@ -71,11 +69,13 @@ export class SkdQuery implements ISdkQuery {
 
     const tokenData = tokenDataOption.unwrapOr(undefined);
 
-    if (!tokenData) return undefined;
+    if (!tokenData) return null;
 
     const { constData, variableData, owner } = tokenData;
 
     return {
+      id: tokenId,
+      collectionId,
       url: offchainSchema.replace('{id}', tokenId.toString()),
       constData: deserializeConstData({
         schema: constOnChainSchema as INamespace,
@@ -83,6 +83,6 @@ export class SkdQuery implements ISdkQuery {
       }),
       variableData: variableData.toString(),
       owner: owner.value.toString(),
-    } as any;
+    };
   }
 }

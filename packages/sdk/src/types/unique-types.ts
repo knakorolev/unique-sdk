@@ -54,4 +54,9 @@ export interface CollectionInfo {
 
 export interface TokenInfo {
   id: number;
+  collectionId: number;
+  url: string;
+  constData: any;
+  variableData: string;
+  owner: string;
 }

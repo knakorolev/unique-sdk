@@ -1,5 +1,5 @@
 import { ApiPromise } from '@polkadot/api';
-import {
+import type {
   BurnTokenArgs,
   CreateTokenArgs,
   ISdkExtrinsics,
@@ -7,7 +7,7 @@ import {
   ISdkToken,
   TransferTokenArgs,
   UnsignedTxPayload,
-} from '@unique-nft/sdk';
+} from '../types';
 import { serializeConstData } from '../utils/protobuf.utils';
 
 export class SdkToken implements ISdkToken {

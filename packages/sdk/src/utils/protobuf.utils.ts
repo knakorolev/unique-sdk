@@ -68,12 +68,10 @@ export function deserializeConstData(args: DeserializeConstDataArgs) {
     Object.keys(originalObject).map((key) => [key, parseObject[key]]),
   );
 
-  for (const key in mappingObject) {
-    if (NFTMeta.fields[key].resolvedType === null) {
-      continue;
-    }
+  Object.keys(mappingObject).forEach((key) => {
+    if (NFTMeta.fields[key].resolvedType === null) return;
 
-    if (NFTMeta.fields[key].resolvedType?.constructor.name == 'Enum') {
+    if (NFTMeta.fields[key].resolvedType?.constructor.name === 'Enum') {
       if (Array.isArray(mappingObject[key])) {
         const items = mappingObject[key];
 
@@ -94,7 +92,8 @@ export function deserializeConstData(args: DeserializeConstDataArgs) {
         });
       }
     }
-  }
+  });
+
   return mappingObject;
 }
 

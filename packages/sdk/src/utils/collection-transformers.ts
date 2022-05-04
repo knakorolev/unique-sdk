@@ -1,15 +1,16 @@
 import {
-  CollectionInfo,
-  CollectionLimits,
-  CollectionSponsorship,
-} from '@unique-nft/sdk';
-import {
   UpDataStructsCollectionLimits,
   UpDataStructsCreateCollectionData,
   UpDataStructsSponsorshipState,
 } from '@unique-nft/types/unique/types';
 import { Registry } from '@polkadot/types/types';
 import { UpDataStructsCollection } from '@unique-nft/types/unique';
+import { objectSpread } from '@polkadot/util';
+import type {
+  CollectionInfo,
+  CollectionLimits,
+  CollectionSponsorship,
+} from '../types';
 import {
   sponsoredDataRateLimitToNumber,
   toBoolean,
@@ -21,7 +22,6 @@ import {
   stringToUTF16,
   bytesToJson,
 } from './string.utils';
-import { objectSpread } from '@polkadot/util';
 
 export function decodeCollectionSponsorship(
   sponsorship: UpDataStructsSponsorshipState,

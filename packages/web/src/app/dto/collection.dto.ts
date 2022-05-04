@@ -38,18 +38,27 @@ export class TokenGetRequest implements TokenIdArg {
 
 class CollectionLimitsDto implements CollectionLimits {
   accountTokenOwnershipLimit?: number;
+
   sponsoredDataSize?: number;
+
   sponsoredDataRateLimit?: number;
+
   tokenLimit?: number;
+
   sponsorTransferTimeout?: number;
+
   sponsorApproveTimeout?: number;
+
   ownerCanTransfer?: boolean;
+
   ownerCanDestroy?: boolean;
+
   transfersEnabled?: boolean;
 }
 
 class CollectionSponsorshipDto implements CollectionSponsorship {
   address: string;
+
   isConfirmed: boolean;
 }
 
@@ -101,6 +110,7 @@ export class CreateCollectionDto implements CreateCollectionArgs {
    * @example 'Sample collection name'
    */
   name: string;
+
   /**
    * @example 'sample collection description'
    */
@@ -139,11 +149,14 @@ export class CreateCollectionDto implements CreateCollectionArgs {
 
 export class BurnCollectionDto implements BurnCollectionArgs {
   address: string;
+
   collectionId: number;
 }
 
 export class TransferCollectionDto implements TransferCollectionArgs {
   collectionId: number;
+
   from: string;
+
   to: string;
 }
