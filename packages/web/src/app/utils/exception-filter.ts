@@ -18,8 +18,8 @@ httpResponseErrorMap.set(BadSignatureError.name, BadRequestException);
 export class SdkExceptionsFilter extends BaseExceptionFilter {
   catch(exception: SdkError, host: ArgumentsHost) {
     if (httpResponseErrorMap.has(exception.constructor.name)) {
-      const errorClass = httpResponseErrorMap.get(exception.constructor.name);
-      const httpError = new errorClass(exception);
+      const ErrorClass = httpResponseErrorMap.get(exception.constructor.name);
+      const httpError = new ErrorClass(exception);
       super.catch(httpError, host);
     } else {
       super.catch(
