@@ -1,4 +1,4 @@
-import { Balance, GetBalanceArgs } from '@unique-nft/sdk';
+import { AddressArg, Balance } from '@unique-nft/sdk';
 
 export class BalanceResponse implements Balance {
   /**
@@ -16,7 +16,7 @@ export class BalanceResponse implements Balance {
   // todo withUnit: string
 }
 
-export class BalanceRequest implements GetBalanceArgs {
+export class BalanceRequest implements AddressArg {
   /**
    * @example 'yGEeaYLrnw8aiTFj5QZAmwWRKu6QdxUkaASLCQznuZX2Lyj7q'
    */

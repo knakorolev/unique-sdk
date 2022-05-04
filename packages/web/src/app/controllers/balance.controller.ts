@@ -13,6 +13,6 @@ export class BalanceController {
 
   @Get()
   async getBalance(@Query() args: BalanceRequest): Promise<BalanceResponse> {
-    return await this.sdk.getBalance(args);
+    return await this.sdk.query.balance(args);
   }
 }

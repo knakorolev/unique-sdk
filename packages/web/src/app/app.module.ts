@@ -6,6 +6,8 @@ import {
   ChainController,
   BalanceController,
   ExtrinsicsController,
+  CollectionController,
+  TokenController,
 } from './controllers';
 import { GlobalConfigModule } from './config/config.module';
 
@@ -23,7 +25,13 @@ export const sdkProvider = {
 
 @Module({
   imports: [GlobalConfigModule],
-  controllers: [ChainController, BalanceController, ExtrinsicsController],
+  controllers: [
+    ChainController,
+    BalanceController,
+    ExtrinsicsController,
+    CollectionController,
+    TokenController,
+  ],
   providers: [sdkProvider],
 })
 export class AppModule {}

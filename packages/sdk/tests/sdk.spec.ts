@@ -1,4 +1,4 @@
-import { Sdk } from '@unique-nft/sdk';
+import { Sdk } from '../src/lib/sdk';
 import { u8aToHex } from '@polkadot/util';
 import { Keyring } from '@polkadot/keyring';
 import { KeyringPair } from '@polkadot/keyring/types';

@@ -11,7 +11,10 @@
     "test:sdk": "nx test sdk",
     "test:web": "nx test web",
     "lint": "nx lint",
-    "start": "node ./dist/packages/web/main.js"
+    "lint:fix": "eslint ./packages/** --fix",
+    "start": "node ./dist/packages/web/main.js",
+    "postinstall": "npm run fix:unique:nft:types",
+    "fix:unique:nft:types": "find ./node_modules/@unique-nft/types/ -type f -name '*.ts' ! -name '*.d.ts' -type f -delete"
   },
   "private": true,
   "dependencies": {
@@ -22,6 +25,7 @@
     "@nestjs/swagger": "^5.2.1",
     "@polkadot/api": "^7.8.1",
     "@unique-nft/types": "^0.4.0",
+    "protobufjs": "^6.11.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "swagger-ui-express": "^4.3.0",
@@ -40,6 +44,7 @@
     "@nrwl/workspace": "13.10.2",
     "@types/jest": "27.0.2",
     "@types/node": "16.11.7",
+    "@types/protobufjs": "^6.0.0",
     "@types/supertest": "^2.0.12",
     "@typescript-eslint/eslint-plugin": "~5.18.0",
     "@typescript-eslint/parser": "~5.18.0",
