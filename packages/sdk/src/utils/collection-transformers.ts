@@ -25,9 +25,9 @@ import {
 
 export function decodeCollectionSponsorship(
   sponsorship: UpDataStructsSponsorshipState,
-): CollectionSponsorship | undefined {
+): CollectionSponsorship | null {
   return sponsorship.isDisabled
-    ? undefined
+    ? null
     : {
         address: sponsorship.value.toString(),
         isConfirmed: sponsorship.isConfirmed,
@@ -79,20 +79,28 @@ export function encodeCollection(
   registry: Registry,
   collectionInfo: Partial<CollectionInfo>,
 ): UpDataStructsCreateCollectionData {
-  const params = objectSpread(
-    {},
-    collectionInfo,
-    collectionInfo.name ? { name: stringToUTF16(collectionInfo.name) } : {},
-    collectionInfo.description
-      ? { name: stringToUTF16(collectionInfo.description) }
-      : {},
-    collectionInfo.tokenPrefix
-      ? { name: stringToUTF16(collectionInfo.tokenPrefix) }
-      : {},
-  );
+  const params: object[] = [collectionInfo];
+
+  if (collectionInfo.name) {
+    params.push({ name: stringToUTF16(collectionInfo.name) });
+  }
+
+  if (collectionInfo.description) {
+    params.push({ description: stringToUTF16(collectionInfo.description) });
+  }
+
+  if (collectionInfo.tokenPrefix) {
+    params.push({ tokenPrefix: stringToUTF16(collectionInfo.tokenPrefix) });
+  }
+
+  if (collectionInfo.constOnChainSchema) {
+    params.push({
+      tokenPrefix: JSON.stringify(collectionInfo.constOnChainSchema),
+    });
+  }
 
   return registry.createType<UpDataStructsCreateCollectionData>(
     'UpDataStructsCreateCollectionData',
-    params,
+    objectSpread({}, ...params),
   );
 }

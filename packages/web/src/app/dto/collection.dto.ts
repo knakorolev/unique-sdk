@@ -16,6 +16,7 @@ import {
   CollectionSchemaVersion,
   CollectionMode,
   DEFAULT_CONST_SCHEMA,
+  MetaUpdatePermission,
 } from '@unique-nft/sdk';
 
 export class CollectionGetRequest implements CollectionIdArg {
@@ -38,26 +39,30 @@ export class TokenGetRequest implements TokenIdArg {
 }
 
 class CollectionLimitsDto implements CollectionLimits {
-  accountTokenOwnershipLimit?: number;
+  accountTokenOwnershipLimit: number;
 
-  sponsoredDataSize?: number;
+  sponsoredDataSize: number | null;
 
-  sponsoredDataRateLimit?: number;
+  sponsoredDataRateLimit: number | null;
 
-  tokenLimit?: number;
+  tokenLimit: number | null;
 
-  sponsorTransferTimeout?: number;
+  sponsorTransferTimeout: number | null;
 
-  sponsorApproveTimeout?: number;
+  sponsorApproveTimeout: number | null;
 
-  ownerCanTransfer?: boolean;
+  ownerCanTransfer: boolean | null;
 
-  ownerCanDestroy?: boolean;
+  ownerCanDestroy: boolean | null;
 
-  transfersEnabled?: boolean;
+  transfersEnabled: boolean | null;
 }
 
 class CollectionSponsorshipDto implements CollectionSponsorship {
+  /**
+   * @description The ss-58 encoded address
+   * @example 'yGCyN3eydMkze4EPtz59Tn7obwbUbYNZCz48dp8FRdemTaLwm'
+   */
   address: string;
 
   isConfirmed: boolean;
@@ -76,28 +81,35 @@ export class CollectionResponse implements CollectionInfo {
   schemaVersion: CollectionSchemaVersion | `${CollectionSchemaVersion}`;
 
   @ApiProperty({ type: Object, example: JSON.stringify(DEFAULT_CONST_SCHEMA) })
-  constOnChainSchema?: any;
+  constOnChainSchema: any | null;
 
   description: string;
 
   limits: CollectionLimitsDto;
 
-  metaUpdatePermission: string;
+  metaUpdatePermission: MetaUpdatePermission | `${MetaUpdatePermission}`;
 
   mintMode: boolean;
 
   name: string;
 
+  /**
+   * @example https://ipfs.unique.network/ipfs/QmcAcH4F9HYQtpqKHxBFwGvkfKb8qckXj2YWUrcc8yd24G/image{id}.png
+   */
   offchainSchema: string;
 
+  /**
+   * @description The ss-58 encoded address
+   * @example 'yGCyN3eydMkze4EPtz59Tn7obwbUbYNZCz48dp8FRdemTaLwm'
+   */
   owner: string;
 
-  sponsorship?: CollectionSponsorshipDto;
+  sponsorship: CollectionSponsorshipDto | null;
 
   tokenPrefix: string;
 
   @ApiProperty({ type: Object })
-  variableOnChainSchema?: AnyJson;
+  variableOnChainSchema: AnyJson | null;
 }
 
 export class CreateCollectionDto implements CreateCollectionArgs {
@@ -136,10 +148,14 @@ export class CreateCollectionDto implements CreateCollectionArgs {
 
   limits?: CollectionLimitsDto;
 
-  metaUpdatePermission?: string;
+  @ApiProperty({ enum: MetaUpdatePermission })
+  metaUpdatePermission?: MetaUpdatePermission | `${MetaUpdatePermission}`;
 
   mintMode?: boolean;
 
+  /**
+   * @example https://ipfs.unique.network/ipfs/QmcAcH4F9HYQtpqKHxBFwGvkfKb8qckXj2YWUrcc8yd24G/image{id}.png
+   */
   offchainSchema?: string;
 
   sponsorship?: CollectionSponsorshipDto;
@@ -149,6 +165,10 @@ export class CreateCollectionDto implements CreateCollectionArgs {
 }
 
 export class BurnCollectionDto implements BurnCollectionArgs {
+  /**
+   * @description The ss-58 encoded address
+   * @example 'yGCyN3eydMkze4EPtz59Tn7obwbUbYNZCz48dp8FRdemTaLwm'
+   */
   address: string;
 
   collectionId: number;

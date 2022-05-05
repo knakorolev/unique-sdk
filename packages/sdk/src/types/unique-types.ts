@@ -17,21 +17,27 @@ export enum CollectionSchemaVersion {
   Unique = 'Unique',
 }
 
+export enum MetaUpdatePermission {
+  ItemOwner = 'ItemOwner',
+  Admin = 'Admin',
+  None = 'None',
+}
+
 export interface CollectionSponsorship {
   address: string;
   isConfirmed: boolean;
 }
 
 export interface CollectionLimits {
-  accountTokenOwnershipLimit?: number;
-  sponsoredDataSize?: number;
-  sponsoredDataRateLimit?: number;
-  tokenLimit?: number;
-  sponsorTransferTimeout?: number;
-  sponsorApproveTimeout?: number;
-  ownerCanTransfer?: boolean;
-  ownerCanDestroy?: boolean;
-  transfersEnabled?: boolean;
+  accountTokenOwnershipLimit: number | null;
+  sponsoredDataSize: number | null;
+  sponsoredDataRateLimit: number | null;
+  tokenLimit: number | null;
+  sponsorTransferTimeout: number | null;
+  sponsorApproveTimeout: number | null;
+  ownerCanTransfer: boolean | null;
+  ownerCanDestroy: boolean | null;
+  transfersEnabled: boolean | null;
 }
 
 export interface CollectionInfo {
@@ -45,11 +51,11 @@ export interface CollectionInfo {
   tokenPrefix: string;
   mintMode: boolean;
   offchainSchema: string;
-  sponsorship?: CollectionSponsorship;
+  sponsorship: CollectionSponsorship | null;
   limits: CollectionLimits;
-  constOnChainSchema?: INamespace;
-  variableOnChainSchema?: AnyJson;
-  metaUpdatePermission: string;
+  constOnChainSchema: INamespace | null;
+  variableOnChainSchema: AnyJson | null;
+  metaUpdatePermission: MetaUpdatePermission | `${MetaUpdatePermission}`;
 }
 
 export interface TokenInfo {
