@@ -33,6 +33,12 @@ export interface TxBuildArgs {
   isImmortal?: boolean;
 }
 
+export interface TransferBuildArgs {
+  address: string;
+  destination: string;
+  amount: number;
+}
+
 export interface UnsignedTxPayload {
   signerPayloadJSON: SignerPayloadJSON;
   signerPayloadRaw: SignerPayloadRaw;
@@ -93,6 +99,10 @@ export interface ISdkExtrinsics {
   submit(args: SubmitTxArgs): Promise<SubmitResult>;
 }
 
+export interface ISdkBalance {
+  buildTransfer(buildArgs: TransferBuildArgs): Promise<UnsignedTxPayload>;
+}
+
 export interface ISdkQuery {
   chainProperties(): ChainProperties;
   balance(args: AddressArg): Promise<Balance>;
@@ -103,6 +113,7 @@ export interface ISdkQuery {
 export interface ISdk {
   query: ISdkQuery;
   extrinsics: ISdkExtrinsics;
+  balance: ISdkBalance;
   collection: ISdkCollection;
   token: ISdkToken;
 }

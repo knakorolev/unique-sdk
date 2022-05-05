@@ -10,6 +10,7 @@ import {
   TxBuildArgs,
   UnsignedTxPayload,
 } from '../types';
+import { BuildExtrinsicError, SubmitExtrinsicError } from './errors';
 
 export class SdkExtrinsics implements ISdkExtrinsics {
   constructor(readonly api: ApiPromise) {}
@@ -54,7 +55,14 @@ export class SdkExtrinsics implements ISdkExtrinsics {
       signedExtensions,
     };
 
-    const tx = this.api.tx[section][method](...args);
+    let tx;
+    try {
+      tx = this.api.tx[section][method](...args);
+    } catch (error) {
+      const errorMessage =
+        error && error instanceof Error ? error.message : undefined;
+      throw new BuildExtrinsicError(errorMessage);
+    }
 
     const signerPayload = this.api.registry.createTypeUnsafe<SignerPayload>(
       'SignerPayload',
@@ -92,8 +100,13 @@ export class SdkExtrinsics implements ISdkExtrinsics {
 
     extrinsic.addSignature(address, signatureWithType, signerPayloadJSON);
 
-    const hash = await this.api.rpc.author.submitExtrinsic(extrinsic);
-
-    return { hash: hash.toHex() };
+    try {
+      const hash = await this.api.rpc.author.submitExtrinsic(extrinsic);
+      return { hash: hash.toHex() };
+    } catch (error) {
+      const errorMessage =
+        error && error instanceof Error ? error.message : undefined;
+      throw new SubmitExtrinsicError(errorMessage);
+    }
   }
 }
